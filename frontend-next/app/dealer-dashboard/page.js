@@ -31,7 +31,7 @@ export default function DealerDashboard() {
       car_make: 'Suzuki',
       car_model: 'Swift',
       year: 2016,
-      car_plate: 'AB123',
+      car_plate: 'LDR74',
       mileage: 85000,
       color: 'White',
       status: 'active',
