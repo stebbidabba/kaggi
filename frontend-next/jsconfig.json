@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "ui/*": ["/app/frontend/src/components/ui/*"]
+    }
+  }
+}

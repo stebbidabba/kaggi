@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --hero-bg: #fffaf0;
+  --header-bg: #fffaf0;
+}
+
+@layer base { 
+  html, body { 
+    @apply bg-white text-black; 
+    font-family: 'M PLUS Rounded 1c', ui-sans-serif, system-ui, sans-serif;
+    margin: 0;
+    padding: 0;
+  } 
+}
+
+.btn-orange { background: #ff7a28; color: #fff; transition: background-color 150ms ease, box-shadow 150ms ease, transform 120ms ease; }
+.btn-orange:hover { background: #ff7a28cc; box-shadow: 0 8px 24px rgba(255,122,40,.25); transform: translateY(-1px); }
+.btn-orange:active { transform: translateY(0); }
+.badge-pill { border-radius: 9999px; }
+.shadow-soft { box-shadow: 0 8px 30px rgba(0,0,0,.06); }
+
+/* Remove the subtle dividing line between header and hero */
+header + main section:first-child{ border-top: 0 !important; }
+
+/* Custom text sizes */
+.text-2_5xl { font-size: 1.6875rem; line-height: 2rem; }
+.text-3_5xl { font-size: 2.0625rem; line-height: 2.375rem; }
+
+/* Tailwind CSS variables for shadcn-like palette */
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+  }
+}

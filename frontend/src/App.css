@@ -1,0 +1,25 @@
+/* Tailwind handles most styling. This file keeps app-level helpers. */
+:root {
+  --brand-orange: #ff7a28;
+  --brand-green: #0e7b75;
+  --hero-bg: #fffaf0;
+  --header-bg: #fffaf0;
+}
+
+/***** Utilities *****/
+.btn-orange {
+  background: var(--brand-orange);
+  color: white;
+  transition: background-color 150ms ease, box-shadow 150ms ease, transform 120ms ease;
+}
+.btn-orange:hover { background: #ff7a28cc; box-shadow: 0 8px 24px rgba(255,122,40,.25); transform: translateY(-1px); }
+.btn-orange:active { transform: translateY(0); }
+
+.badge-pill {
+  border-radius: 9999px;
+}
+
+.shadow-soft { box-shadow: 0 8px 30px rgba(0,0,0,.06); }
+
+/* Avoid center-aligning container; respect natural reading flow */
+.App { text-align: initial; }
