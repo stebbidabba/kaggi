@@ -1,4 +1,0 @@
-{
-  "buildCommand": "cd frontend-next && yarn build",
-  "installCommand": "cd frontend-next && yarn install"
-}
