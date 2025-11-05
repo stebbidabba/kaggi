@@ -1145,106 +1145,285 @@ export default function DealerDashboard() {
             
             {/* Content */}
             <div className="p-6 space-y-6">
-              {/* Vehicle Info */}
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Upplýsingar um ökutæki</h3>
-                <div className="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-lg">
+              {/* Inspection Date and Status */}
+              <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+                <div className="flex justify-between items-center">
                   <div>
-                    <p className="text-sm text-gray-600">Framleiðandi</p>
-                    <p className="font-medium text-gray-900">{selectedInspectionCar.car_make}</p>
+                    <p className="text-sm text-gray-600">Skoðunardagsetning</p>
+                    <p className="font-semibold text-gray-900">15. október 2025</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600">Tegund</p>
-                    <p className="font-medium text-gray-900">{selectedInspectionCar.car_model}</p>
+                    <p className="text-sm text-gray-600">Næsta skoðun</p>
+                    <p className="font-semibold text-gray-900">15. október 2027</p>
                   </div>
-                  <div>
-                    <p className="text-sm text-gray-600">Árgerð</p>
-                    <p className="font-medium text-gray-900">{selectedInspectionCar.year}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">Kílómetrar</p>
-                    <p className="font-medium text-gray-900">{selectedInspectionCar.mileage?.toLocaleString()} km</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">Litur</p>
-                    <p className="font-medium text-gray-900">{selectedInspectionCar.color || 'Ekki tilgreint'}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">Skoðuð</p>
-                    <p className="font-medium text-green-600">Í gildi</p>
+                  <div className="text-right">
+                    <span className="inline-block px-4 py-2 bg-green-500 text-white font-bold rounded-lg">
+                      SAMÞYKKT
+                    </span>
                   </div>
                 </div>
               </div>
 
-              {/* Condition Summary */}
+              {/* Vehicle Technical Info */}
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Heildarástand</h3>
-                <div className="bg-green-50 border border-green-200 p-4 rounded-lg">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-gray-700">Heildareinkunn</span>
-                    <span className="text-2xl font-bold text-green-600">8.5/10</span>
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">Tæknilegar upplýsingar</h3>
+                <div className="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-lg text-sm">
+                  <div>
+                    <p className="text-gray-600">Skráningarnúmer</p>
+                    <p className="font-semibold text-gray-900">{selectedInspectionCar.car_plate}</p>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-3">
-                    <div className="bg-green-500 h-3 rounded-full" style={{width: '85%'}}></div>
+                  <div>
+                    <p className="text-gray-600">Verksmiðjunúmer</p>
+                    <p className="font-semibold text-gray-900">SJNFAAZE0U6{Math.floor(Math.random() * 100000)}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-600">Framleiðandi/Tegund</p>
+                    <p className="font-semibold text-gray-900">{selectedInspectionCar.car_make} {selectedInspectionCar.car_model}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-600">Árgerð</p>
+                    <p className="font-semibold text-gray-900">{selectedInspectionCar.year}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-600">Eldsneyti</p>
+                    <p className="font-semibold text-gray-900">{selectedInspectionCar.car_make === 'Suzuki' ? 'Bensín' : 'Bensín/Rafmagn'}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-600">Kílómetrafjöldi</p>
+                    <p className="font-semibold text-gray-900">{selectedInspectionCar.mileage?.toLocaleString()} km</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-600">Búnaður</p>
+                    <p className="font-semibold text-gray-900">Sjálfskiptur</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-600">Litur</p>
+                    <p className="font-semibold text-gray-900">{selectedInspectionCar.color || 'Hvítur'}</p>
                   </div>
                 </div>
               </div>
 
-              {/* Inspection Details */}
+              {/* Inspection Results - Detailed */}
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Atriði skoðunar</h3>
-                <div className="space-y-3">
-                  {[
-                    { category: 'Vél og gangverk', status: 'Gott', color: 'green' },
-                    { category: 'Rafkerfi', status: 'Mjög gott', color: 'green' },
-                    { category: 'Karossería', status: 'Gott', color: 'green' },
-                    { category: 'Innrétting', status: 'Ásættanlegt', color: 'yellow' },
-                    { category: 'Dekk og hjól', status: 'Gott', color: 'green' },
-                    { category: 'Hemlar', status: 'Mjög gott', color: 'green' }
-                  ].map((item, index) => (
-                    <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                      <span className="font-medium text-gray-900">{item.category}</span>
-                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                        item.color === 'green' ? 'bg-green-100 text-green-700' : 
-                        item.color === 'yellow' ? 'bg-yellow-100 text-yellow-700' : 
-                        'bg-red-100 text-red-700'
-                      }`}>
-                        {item.status}
-                      </span>
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">Niðurstöður skoðunar</h3>
+                
+                {/* Hemlar (Brakes) */}
+                <div className="mb-4">
+                  <div className="flex items-center justify-between mb-2 bg-gray-100 p-2 rounded">
+                    <h4 className="font-semibold text-gray-900">1. Hemlar</h4>
+                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">
+                      SAMÞYKKT
+                    </span>
+                  </div>
+                  <div className="pl-4 space-y-1 text-sm">
+                    <div className="flex justify-between py-1">
+                      <span className="text-gray-600">• Framhemlaklossar</span>
+                      <span className="text-gray-900 font-medium">7mm (mörk: 3mm) ✓</span>
                     </div>
-                  ))}
+                    <div className="flex justify-between py-1">
+                      <span className="text-gray-600">• Afturhemlaklossar</span>
+                      <span className="text-gray-900 font-medium">5mm (mörk: 3mm) ✓</span>
+                    </div>
+                    <div className="flex justify-between py-1">
+                      <span className="text-gray-600">• Hemlabúnaður og slöngur</span>
+                      <span className="text-gray-900 font-medium">Óskert ✓</span>
+                    </div>
+                    <div className="flex justify-between py-1">
+                      <span className="text-gray-600">• Hemlukraftur</span>
+                      <span className="text-gray-900 font-medium">652 N/kg (krafa: 500) ✓</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Stýri og fjöðrun (Steering & Suspension) */}
+                <div className="mb-4">
+                  <div className="flex items-center justify-between mb-2 bg-gray-100 p-2 rounded">
+                    <h4 className="font-semibold text-gray-900">2. Stýri og fjöðrun</h4>
+                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">
+                      SAMÞYKKT
+                    </span>
+                  </div>
+                  <div className="pl-4 space-y-1 text-sm">
+                    <div className="flex justify-between py-1">
+                      <span className="text-gray-600">• Stýrisendi og búnaður</span>
+                      <span className="text-gray-900 font-medium">Óskert, engin fæðing ✓</span>
+                    </div>
+                    <div className="flex justify-between py-1">
+                      <span className="text-gray-600">• Höggdeyfar</span>
+                      <span className="text-gray-900 font-medium">Virkir, engin leki ✓</span>
+                    </div>
+                    <div className="flex justify-between py-1">
+                      <span className="text-gray-600">• Fjöðrandi hlutar</span>
+                      <span className="text-gray-900 font-medium">Góður stuðningur ✓</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Ljósabúnaður (Lighting) */}
+                <div className="mb-4">
+                  <div className="flex items-center justify-between mb-2 bg-gray-100 p-2 rounded">
+                    <h4 className="font-semibold text-gray-900">3. Ljósabúnaður</h4>
+                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">
+                      SAMÞYKKT
+                    </span>
+                  </div>
+                  <div className="pl-4 space-y-1 text-sm">
+                    <div className="flex justify-between py-1">
+                      <span className="text-gray-600">• Framljós, hátt og lágt</span>
+                      <span className="text-gray-900 font-medium">Virka, rétt stillt ✓</span>
+                    </div>
+                    <div className="flex justify-between py-1">
+                      <span className="text-gray-600">• Bremsu- og stefnuljós</span>
+                      <span className="text-gray-900 font-medium">Öll virk ✓</span>
+                    </div>
+                    <div className="flex justify-between py-1">
+                      <span className="text-gray-600">• Baklýsing og bakljós</span>
+                      <span className="text-gray-900 font-medium">Í lagi ✓</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Útblástur (Emissions) */}
+                <div className="mb-4">
+                  <div className="flex items-center justify-between mb-2 bg-gray-100 p-2 rounded">
+                    <h4 className="font-semibold text-gray-900">4. Útblástur</h4>
+                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">
+                      SAMÞYKKT
+                    </span>
+                  </div>
+                  <div className="pl-4 space-y-1 text-sm">
+                    <div className="flex justify-between py-1">
+                      <span className="text-gray-600">• CO gildi (kol)óxíð)</span>
+                      <span className="text-gray-900 font-medium">0.21% (mörk: 0.5%) ✓</span>
+                    </div>
+                    <div className="flex justify-between py-1">
+                      <span className="text-gray-600">• HC gildi (kolvetni)</span>
+                      <span className="text-gray-900 font-medium">89 ppm (mörk: 200) ✓</span>
+                    </div>
+                    <div className="flex justify-between py-1">
+                      <span className="text-gray-600">• Lambda (súrefni)</span>
+                      <span className="text-gray-900 font-medium">1.01 (mörk: 0.97-1.03) ✓</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Dekk og hjól (Tires & Wheels) */}
+                <div className="mb-4">
+                  <div className="flex items-center justify-between mb-2 bg-gray-100 p-2 rounded">
+                    <h4 className="font-semibold text-gray-900">5. Dekk og hjól</h4>
+                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-yellow-100 text-yellow-700">
+                      ATHUGASEMD
+                    </span>
+                  </div>
+                  <div className="pl-4 space-y-1 text-sm">
+                    <div className="flex justify-between py-1">
+                      <span className="text-gray-600">• Mynstursdýpt, framhjól</span>
+                      <span className="text-gray-900 font-medium">4.5mm (mörk: 1.6mm) ✓</span>
+                    </div>
+                    <div className="flex justify-between py-1">
+                      <span className="text-gray-600">• Mynstursdýpt, afturhjól</span>
+                      <span className="text-gray-900 font-medium">5.2mm (mörk: 1.6mm) ✓</span>
+                    </div>
+                    <div className="flex justify-between py-1">
+                      <span className="text-gray-600">• Ástand dekka</span>
+                      <span className="text-yellow-600 font-medium">Mælt með nýjum dekkjum innan 6 mán. ⚠</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Karossería og undirvagn (Body & Undercarriage) */}
+                <div className="mb-4">
+                  <div className="flex items-center justify-between mb-2 bg-gray-100 p-2 rounded">
+                    <h4 className="font-semibold text-gray-900">6. Karossería og burðarvirki</h4>
+                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">
+                      SAMÞYKKT
+                    </span>
+                  </div>
+                  <div className="pl-4 space-y-1 text-sm">
+                    <div className="flex justify-between py-1">
+                      <span className="text-gray-600">• Burðarvirki og viðgerðir</span>
+                      <span className="text-gray-900 font-medium">Óskert, engar óleyfilegar viðg. ✓</span>
+                    </div>
+                    <div className="flex justify-between py-1">
+                      <span className="text-gray-600">• Tæringar og ryð</span>
+                      <span className="text-gray-900 font-medium">Lítilsháttar yfirborðsryð ✓</span>
+                    </div>
+                    <div className="flex justify-between py-1">
+                      <span className="text-gray-600">• Festingar og svigur</span>
+                      <span className="text-gray-900 font-medium">Allar í lagi ✓</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Innrétting og öryggisbúnaður */}
+                <div className="mb-4">
+                  <div className="flex items-center justify-between mb-2 bg-gray-100 p-2 rounded">
+                    <h4 className="font-semibold text-gray-900">7. Innrétting og öryggisbúnaður</h4>
+                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700">
+                      SAMÞYKKT
+                    </span>
+                  </div>
+                  <div className="pl-4 space-y-1 text-sm">
+                    <div className="flex justify-between py-1">
+                      <span className="text-gray-600">• Öryggisbelti</span>
+                      <span className="text-gray-900 font-medium">Öll virk, læsingar í lagi ✓</span>
+                    </div>
+                    <div className="flex justify-between py-1">
+                      <span className="text-gray-600">• Loftpúðar (airbag)</span>
+                      <span className="text-gray-900 font-medium">Engin viðvörun á töflu ✓</span>
+                    </div>
+                    <div className="flex justify-between py-1">
+                      <span className="text-gray-600">• Framrúða og rúðuþurrkur</span>
+                      <span className="text-gray-900 font-medium">Heil rúða, þurrkur virkar ✓</span>
+                    </div>
+                    <div className="flex justify-between py-1">
+                      <span className="text-gray-600">• Púkar og horn</span>
+                      <span className="text-gray-900 font-medium">Virka eðlilega ✓</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* Additional Notes */}
+              {/* Inspector Notes */}
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Athugasemdir</h3>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-gray-700 text-sm">
-                    Bíllinn er í góðu ástandi miðað við aldur og kílómetrafjölda. Smávægilegur sliti á innréttingu. 
-                    Engar alvarlegar athugasemdir. Reglulegt viðhald hefur verið framkvæmt.
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">Athugasemdir skoðunarmanns</h3>
+                <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg text-sm">
+                  <p className="text-gray-700 mb-2">
+                    <strong>Mælt með viðhaldi:</strong> Framhjóladekk byrja að vera slitin og mælt er með endurnýjun innan 6 mánaða. 
+                    Lítilsháttar yfirborðsryð á neðri hluta undirstells, ekki burðarvirki. Mælt með ryðvörn.
+                  </p>
+                  <p className="text-gray-700">
+                    <strong>Almennt ástand:</strong> Bíllinn er í góðu viðhaldi miðað við aldur og ekna kílómetra. 
+                    Engar alvarlegar athugasemdir. Öll kerfi virka sem skyldi.
                   </p>
                 </div>
               </div>
 
-              {/* Seller Info */}
+              {/* Test Results Summary */}
               <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">Upplýsingar um seljanda</h3>
-                <div className="bg-gray-50 p-4 rounded-lg space-y-2">
-                  <div className="flex items-center">
-                    <span className="text-sm text-gray-600 w-24">Nafn:</span>
-                    <span className="font-medium text-gray-900">{selectedInspectionCar.seller_name}</span>
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">Samantekt prófana</h3>
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="bg-green-50 p-3 rounded-lg text-center">
+                    <p className="text-2xl font-bold text-green-600">6</p>
+                    <p className="text-xs text-gray-600">Samþykkt</p>
                   </div>
-                  <div className="flex items-center">
-                    <span className="text-sm text-gray-600 w-24">Netfang:</span>
-                    <span className="font-medium text-gray-900">{selectedInspectionCar.email}</span>
+                  <div className="bg-yellow-50 p-3 rounded-lg text-center">
+                    <p className="text-2xl font-bold text-yellow-600">1</p>
+                    <p className="text-xs text-gray-600">Athugasemd</p>
                   </div>
-                  {selectedInspectionCar.phone && (
-                    <div className="flex items-center">
-                      <span className="text-sm text-gray-600 w-24">Sími:</span>
-                      <span className="font-medium text-gray-900">{selectedInspectionCar.phone}</span>
-                    </div>
-                  )}
+                  <div className="bg-red-50 p-3 rounded-lg text-center">
+                    <p className="text-2xl font-bold text-red-600">0</p>
+                    <p className="text-xs text-gray-600">Hafnað</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Inspector Info */}
+              <div className="border-t pt-4">
+                <div className="text-sm text-gray-600">
+                  <p><strong>Skoðunarmaður:</strong> Jón Þór Sigurðsson</p>
+                  <p><strong>Skoðunarstöð:</strong> Bifreiðaskoðun Íslands - Reykjavík</p>
+                  <p><strong>Leyfisnúmer:</strong> BS-2024-{Math.floor(Math.random() * 1000)}</p>
                 </div>
               </div>
             </div>
