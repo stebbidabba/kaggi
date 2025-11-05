@@ -28,39 +28,31 @@ export default function DealerDashboard() {
   const [cars, setCars] = useState([
     {
       id: 'mock-1',
-      car_make: 'Toyota',
-      car_model: 'Yaris',
-      year: 2019,
-      car_plate: 'XY999',
+      car_make: 'Suzuki',
+      car_model: 'Swift',
+      year: 2016,
+      car_plate: 'AB123',
       mileage: 85000,
+      color: 'White',
       status: 'active',
-      seller_name: 'María Kristinsdóttir',
-      email: 'maria@example.com',
-      created_at: '2025-10-05T10:00:00Z'
+      seller_name: 'Stefán Jónsson',
+      email: 'stefan@example.is',
+      phone: '+3546921608',
+      created_at: '2025-11-01T10:00:00Z'
     },
     {
       id: 'mock-2',
-      car_make: 'Toyota',
-      car_model: 'Yaris',
+      car_make: 'Volkswagen',
+      car_model: 'Golf',
       year: 2018,
-      car_plate: 'DAK71',
-      mileage: 110000,
-      status: 'pending',
-      seller_name: 'Róbert Spanó',
-      email: 'robertstefansson2404@gmail.com',
-      created_at: '2025-10-06T10:00:00Z'
-    },
-    {
-      id: 'mock-3',
-      car_make: 'Honda',
-      car_model: 'Civic',
-      year: 2020,
-      car_plate: 'ABC123',
-      mileage: 65000,
-      status: 'sold',
-      seller_name: 'Jón Jónsson',
-      email: 'jon@example.com',
-      created_at: '2025-10-07T10:00:00Z'
+      car_plate: 'CD456',
+      mileage: 62000,
+      color: 'Blue',
+      status: 'active',
+      seller_name: 'Guðrún Magnúsdóttir',
+      email: 'gudrun@example.is',
+      phone: '+3547777123',
+      created_at: '2025-11-02T10:00:00Z'
     }
   ]);
   const [loading, setLoading] = useState(false);
