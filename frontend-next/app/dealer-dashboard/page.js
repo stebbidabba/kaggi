@@ -194,16 +194,39 @@ export default function DealerDashboard() {
     try {
       console.log("📊 Fetching dashboard stats...");
       const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+      
+      // If no backend URL, calculate stats from current state
+      if (!backendUrl) {
+        console.log("ℹ️ No backend URL, calculating stats from state");
+        updateStatsFromState();
+        return;
+      }
+      
       const response = await fetch(`${backendUrl}/api/dashboard/stats/${dealerEmail}`);
       
       if (response.ok) {
         const result = await response.json();
         setDashboardStats(result.stats || dashboardStats);
         console.log('✅ Loaded dashboard stats:', result.stats);
+      } else {
+        // If API fails, calculate from state
+        updateStatsFromState();
       }
     } catch (error) {
       console.error("Error fetching dashboard stats:", error);
+      // If API fails, calculate from state
+      updateStatsFromState();
     }
+  };
+  
+  const updateStatsFromState = () => {
+    setDashboardStats({
+      active_auctions: cars.filter(car => car.status === 'active').length,
+      coming_cars: cars.filter(car => car.status === 'pending').length,
+      my_bids: dealerBids.length,
+      favorites: favorites.length,
+      my_purchases: cars.filter(car => car.status === 'sold').length
+    });
   };
 
   const fetchFavorites = async () => {
