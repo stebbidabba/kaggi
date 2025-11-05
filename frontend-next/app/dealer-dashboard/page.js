@@ -70,7 +70,7 @@ export default function DealerDashboard() {
   const [dealerEmail, setDealerEmail] = useState("dealer@example.com");
   const [activeSection, setActiveSection] = useState("active-auctions");
   const [dashboardStats, setDashboardStats] = useState({
-    active_auctions: 0,
+    active_auctions: 2,
     coming_cars: 0,
     my_bids: 0,
     favorites: 0,
