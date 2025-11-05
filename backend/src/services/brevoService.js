@@ -139,13 +139,28 @@ class BrevoService {
       if (!this.apiKey) {
         return {
           connected: false,
-          error: 'No API key configured'
+          error: 'No API key configured',
+          debug: {
+            apiKeyExists: false,
+            apiKeyLength: 0,
+            apiKeyPrefix: 'NOT SET'
+          }
         };
       }
 
       const headers = {
         'api-key': this.apiKey,
         'Content-Type': 'application/json'
+      };
+
+      // Debug info
+      const debugInfo = {
+        apiKeyExists: !!this.apiKey,
+        apiKeyLength: this.apiKey.length,
+        apiKeyPrefix: this.apiKey.substring(0, 15) + '...',
+        apiKeyStartsWith: this.apiKey.startsWith('xkeysib-'),
+        baseURL: this.baseURL,
+        senderEmail: this.senderEmail
       };
 
       // Test API connection by getting account info
@@ -163,14 +178,31 @@ class BrevoService {
       return {
         connected: true,
         account: accountResponse.data,
-        lists: listsResponse.data.lists
+        lists: listsResponse.data.lists,
+        debug: debugInfo
       };
 
     } catch (error) {
       logger.error('Brevo debug connection failed:', error.message);
+      
+      // Include detailed error info
+      const errorDetails = {
+        message: error.message,
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        responseData: error.response?.data
+      };
+      
       return {
         connected: false,
-        error: error.message
+        error: error.message,
+        errorDetails,
+        debug: {
+          apiKeyExists: !!this.apiKey,
+          apiKeyLength: this.apiKey ? this.apiKey.length : 0,
+          apiKeyPrefix: this.apiKey ? this.apiKey.substring(0, 15) + '...' : 'NOT SET',
+          apiKeyStartsWith: this.apiKey ? this.apiKey.startsWith('xkeysib-') : false
+        }
       };
     }
   }
