@@ -467,6 +467,19 @@ export default function DealerDashboard() {
                   1 / 34
                 </div>
               </div>
+              
+              {/* Inspection Report Button */}
+              <div className="p-4">
+                <button
+                  onClick={() => {
+                    setSelectedInspectionCar(selectedAuction);
+                    setShowInspectionModal(true);
+                  }}
+                  className="w-full bg-[#ff833e] hover:bg-[#ff7a28] text-white py-3 px-4 rounded-lg transition-colors font-semibold"
+                >
+                  Skoðunarskýrsla
+                </button>
+              </div>
             </div>
 
             {/* Car Details */}
@@ -842,21 +855,7 @@ export default function DealerDashboard() {
                     </div>
                   </div>
                   
-                  {/* Inspection Report Button */}
-                  <div className="px-4 pt-4">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setSelectedInspectionCar(car);
-                        setShowInspectionModal(true);
-                      }}
-                      className="w-full bg-[#ff833e] hover:bg-[#ff7a28] text-white py-2 px-4 rounded-lg transition-colors font-medium text-sm"
-                    >
-                      Skoðunarskýrsla
-                    </button>
-                  </div>
-                  
-                  <div className="p-4 pt-3">
+                  <div className="p-4">
                     {/* Car Model and Year */}
                     <div className="flex justify-between items-start mb-2">
                       <div>
