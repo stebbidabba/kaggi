@@ -3,8 +3,8 @@ const logger = require('../utils/logger');
 
 class CreditinfoService {
   constructor() {
-    this.baseURL = process.env.VEHICLE_API_BASE;
-    this.tokenURL = process.env.CREDITINFO_TOKEN_URL;
+    this.baseURL = process.env.VEHICLE_API_BASE || 'https://api.creditinfo.is/vehicleregistrycore';
+    this.tokenURL = process.env.CREDITINFO_TOKEN_URL || 'https://login.creditinfo.is/connect/token';
     this.clientId = process.env.CREDITINFO_CLIENT_ID;
     this.clientSecret = process.env.CREDITINFO_CLIENT_SECRET;
     this.username = process.env.CREDITINFO_USERNAME;
