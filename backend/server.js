@@ -31,7 +31,11 @@ app.use(compression());
 
 // CORS configuration
 const corsOptions = {
-  origin: process.env.CORS_ORIGINS === '*' ? true : process.env.CORS_ORIGINS.split(','),
+  origin: process.env.CORS_ORIGINS === '*' 
+    ? true 
+    : process.env.CORS_ORIGINS 
+      ? process.env.CORS_ORIGINS.split(',')
+      : true, // Allow all origins if not specified
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
   credentials: true
@@ -139,9 +143,13 @@ app.use('*', (req, res) => {
 // Initialize database connection and start server
 async function startServer() {
   try {
-    // Test Supabase connection
-    await connectSupabase();
-    logger.info('Database connection established');
+    // Test Supabase connection (optional in serverless)
+    try {
+      await connectSupabase();
+      logger.info('Database connection established');
+    } catch (dbError) {
+      logger.warn('Database connection failed, will retry on demand:', dbError.message);
+    }
     
     // Start server
     app.listen(PORT, '0.0.0.0', () => {
