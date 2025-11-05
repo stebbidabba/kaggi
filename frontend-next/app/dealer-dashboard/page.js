@@ -506,9 +506,9 @@ export default function DealerDashboard() {
                   <p className="text-sm text-gray-600">{t('dealerDashboard.auctionDetail.carDetails.year')}</p>
                   <p className="font-semibold">{selectedAuction.year}</p>
                 </div>
-                <div>
+                <div className="md:col-span-2">
                   <p className="text-sm text-gray-600">{t('dealerDashboard.auctionDetail.carDetails.vin')}</p>
-                  <p className="font-semibold">SJNFAAZE0U6027257</p>
+                  <p className="font-semibold break-all">SJNFAAZE0U6027257</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">{t('dealerDashboard.auctionDetail.carDetails.volume')}</p>
