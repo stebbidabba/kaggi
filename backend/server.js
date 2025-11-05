@@ -25,6 +25,9 @@ const dealerRoutes = require('./src/routes/dealers');
 const app = express();
 const PORT = process.env.PORT || 8001;
 
+// Trust proxy - required for Vercel/behind reverse proxy
+app.set('trust proxy', 1);
+
 // Security middleware
 app.use(helmet());
 app.use(compression());
