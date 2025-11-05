@@ -78,6 +78,8 @@ export default function DealerDashboard() {
   });
   const [favorites, setFavorites] = useState([]);
   const [dealerBids, setDealerBids] = useState([]);
+  const [showInspectionModal, setShowInspectionModal] = useState(false);
+  const [selectedInspectionCar, setSelectedInspectionCar] = useState(null);
   const { lang, t, setLang } = useI18n();
   const router = useRouter();
 
@@ -840,7 +842,21 @@ export default function DealerDashboard() {
                     </div>
                   </div>
                   
-                  <div className="p-4">
+                  {/* Inspection Report Button */}
+                  <div className="px-4 pt-4">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedInspectionCar(car);
+                        setShowInspectionModal(true);
+                      }}
+                      className="w-full bg-[#ff833e] hover:bg-[#ff7a28] text-white py-2 px-4 rounded-lg transition-colors font-medium text-sm"
+                    >
+                      Skoðunarskýrsla
+                    </button>
+                  </div>
+                  
+                  <div className="p-4 pt-3">
                     {/* Car Model and Year */}
                     <div className="flex justify-between items-start mb-2">
                       <div>
@@ -1106,6 +1122,142 @@ export default function DealerDashboard() {
               >
                 Senda tilboð
               </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Inspection Report Modal */}
+      {showInspectionModal && selectedInspectionCar && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50" onClick={() => setShowInspectionModal(false)}>
+          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            {/* Header */}
+            <div className="bg-[#ff833e] text-white p-6 rounded-t-lg">
+              <h2 className="text-2xl font-bold mb-2">
+                Skoðunarskýrsla
+              </h2>
+              <p className="text-white/90">
+                {selectedInspectionCar.car_make} {selectedInspectionCar.car_model} {selectedInspectionCar.year}
+              </p>
+              <p className="text-sm text-white/80">
+                Skráningarnúmer: {selectedInspectionCar.car_plate}
+              </p>
+            </div>
+            
+            {/* Content */}
+            <div className="p-6 space-y-6">
+              {/* Vehicle Info */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">Upplýsingar um ökutæki</h3>
+                <div className="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-lg">
+                  <div>
+                    <p className="text-sm text-gray-600">Framleiðandi</p>
+                    <p className="font-medium text-gray-900">{selectedInspectionCar.car_make}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">Tegund</p>
+                    <p className="font-medium text-gray-900">{selectedInspectionCar.car_model}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">Árgerð</p>
+                    <p className="font-medium text-gray-900">{selectedInspectionCar.year}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">Kílómetrar</p>
+                    <p className="font-medium text-gray-900">{selectedInspectionCar.mileage?.toLocaleString()} km</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">Litur</p>
+                    <p className="font-medium text-gray-900">{selectedInspectionCar.color || 'Ekki tilgreint'}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-600">Skoðuð</p>
+                    <p className="font-medium text-green-600">Í gildi</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Condition Summary */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">Heildarástand</h3>
+                <div className="bg-green-50 border border-green-200 p-4 rounded-lg">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium text-gray-700">Heildareinkunn</span>
+                    <span className="text-2xl font-bold text-green-600">8.5/10</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-3">
+                    <div className="bg-green-500 h-3 rounded-full" style={{width: '85%'}}></div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Inspection Details */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">Atriði skoðunar</h3>
+                <div className="space-y-3">
+                  {[
+                    { category: 'Vél og gangverk', status: 'Gott', color: 'green' },
+                    { category: 'Rafkerfi', status: 'Mjög gott', color: 'green' },
+                    { category: 'Karossería', status: 'Gott', color: 'green' },
+                    { category: 'Innrétting', status: 'Ásættanlegt', color: 'yellow' },
+                    { category: 'Dekk og hjól', status: 'Gott', color: 'green' },
+                    { category: 'Hemlar', status: 'Mjög gott', color: 'green' }
+                  ].map((item, index) => (
+                    <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                      <span className="font-medium text-gray-900">{item.category}</span>
+                      <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                        item.color === 'green' ? 'bg-green-100 text-green-700' : 
+                        item.color === 'yellow' ? 'bg-yellow-100 text-yellow-700' : 
+                        'bg-red-100 text-red-700'
+                      }`}>
+                        {item.status}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Additional Notes */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">Athugasemdir</h3>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-gray-700 text-sm">
+                    Bíllinn er í góðu ástandi miðað við aldur og kílómetrafjölda. Smávægilegur sliti á innréttingu. 
+                    Engar alvarlegar athugasemdir. Reglulegt viðhald hefur verið framkvæmt.
+                  </p>
+                </div>
+              </div>
+
+              {/* Seller Info */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">Upplýsingar um seljanda</h3>
+                <div className="bg-gray-50 p-4 rounded-lg space-y-2">
+                  <div className="flex items-center">
+                    <span className="text-sm text-gray-600 w-24">Nafn:</span>
+                    <span className="font-medium text-gray-900">{selectedInspectionCar.seller_name}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <span className="text-sm text-gray-600 w-24">Netfang:</span>
+                    <span className="font-medium text-gray-900">{selectedInspectionCar.email}</span>
+                  </div>
+                  {selectedInspectionCar.phone && (
+                    <div className="flex items-center">
+                      <span className="text-sm text-gray-600 w-24">Sími:</span>
+                      <span className="font-medium text-gray-900">{selectedInspectionCar.phone}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="p-6 border-t bg-gray-50 rounded-b-lg">
+              <button
+                onClick={() => setShowInspectionModal(false)}
+                className="w-full bg-[#ff833e] hover:bg-[#ff7a28] text-white py-3 px-4 rounded-lg transition-colors font-semibold"
+              >
+                Loka
+              </button>
             </div>
           </div>
         </div>
