@@ -448,10 +448,19 @@ export default function DealerDashboard() {
           <div className="lg:col-span-3">
             {/* Image Gallery - Smaller and more compact */}
             <div className="bg-white rounded-lg shadow-sm mb-6">
-              <div className="h-[500px] bg-gradient-to-br from-blue-50 to-blue-100 rounded-t-lg flex items-center justify-center relative">
-                <div className="text-center">
-                  <Car className="h-24 w-24 text-blue-400 mx-auto mb-4" />
-                  <p className="text-blue-600 text-lg font-medium">{t('dealerDashboard.auctionDetail.imageGallery')} ({Math.floor(Math.random() * 20) + 15} {t('dealerDashboard.auctionDetail.images')})</p>
+              <div className="h-[500px] bg-gradient-to-br from-blue-50 to-blue-100 rounded-t-lg flex items-center justify-center relative overflow-hidden">
+                <img 
+                  src={`/cars/${selectedAuction.car_plate}.jpg`}
+                  alt={`${selectedAuction.car_make} ${selectedAuction.car_model}`}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.nextElementSibling.style.display = 'flex';
+                  }}
+                />
+                <div className="text-center absolute inset-0 flex items-center justify-center flex-col" style={{display: 'none'}}>
+                  <Car className="h-24 w-24 text-blue-400 mb-4" />
+                  <p className="text-blue-600 text-lg font-medium">Engin mynd</p>
                 </div>
                 
                 {/* Navigation arrows */}
@@ -464,7 +473,7 @@ export default function DealerDashboard() {
                 
                 {/* Image counter */}
                 <div className="absolute bottom-4 right-4 bg-black bg-opacity-70 text-white px-3 py-1 rounded-full text-sm">
-                  1 / 34
+                  1 / 1
                 </div>
               </div>
               
@@ -830,10 +839,21 @@ export default function DealerDashboard() {
                 <div key={car.id} className="bg-white rounded-lg border border-gray-200 hover:shadow-md transition-shadow cursor-pointer"
                      onClick={() => handleOpenAuction(car)}>
                   {/* Car Image - Top of card */}
-                  <div className="w-full h-48 bg-gradient-to-br from-blue-50 to-blue-100 rounded-t-lg flex items-center justify-center border-b border-gray-100 relative">
-                    <div className="text-center">
-                      <Car className="h-16 w-16 text-blue-400 mx-auto mb-2" />
-                      <p className="text-blue-600 text-sm">Car image</p>
+                  <div className="w-full h-48 bg-gradient-to-br from-blue-50 to-blue-100 rounded-t-lg flex items-center justify-center border-b border-gray-100 relative overflow-hidden">
+                    <img 
+                      src={`/cars/${car.car_plate}.jpg`}
+                      alt={`${car.car_make} ${car.car_model}`}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.nextElementSibling.style.display = 'block';
+                      }}
+                    />
+                    <div className="text-center absolute inset-0 flex items-center justify-center" style={{display: 'none'}}>
+                      <div>
+                        <Car className="h-16 w-16 text-blue-400 mx-auto mb-2" />
+                        <p className="text-blue-600 text-sm">Engin mynd</p>
+                      </div>
                     </div>
                     
                     {/* Status Ribbon - Long Corner Banner */}
