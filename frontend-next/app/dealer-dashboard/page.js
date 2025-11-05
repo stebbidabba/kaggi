@@ -141,47 +141,9 @@ export default function DealerDashboard() {
     } catch (error) {
       console.error("❌ Error in fetchData:", error);
       // Use mock data if API calls fail or timeout
-      console.log("🔄 Setting mock cars data");
-      const mockCars = [
-        {
-          id: 'mock-1',
-          car_make: 'Toyota',
-          car_model: 'Yaris',
-          year: 2019,
-          car_plate: 'XY999',
-          mileage: 85000,
-          status: 'active',
-          seller_name: 'María Kristinsdóttir',
-          email: 'maria@example.com',
-          created_at: '2025-10-05T10:00:00Z'
-        },
-        {
-          id: 'mock-2',
-          car_make: 'Toyota',
-          car_model: 'Yaris',
-          year: 2018,
-          car_plate: 'DAK71',
-          mileage: 110000,
-          status: 'pending',
-          seller_name: 'Róbert Spanó',
-          email: 'robertstefansson2404@gmail.com',
-          created_at: '2025-10-06T10:00:00Z'
-        },
-        {
-          id: 'mock-3',
-          car_make: 'Honda',
-          car_model: 'Civic',
-          year: 2020,
-          car_plate: 'ABC123',
-          mileage: 65000,
-          status: 'sold',
-          seller_name: 'Jón Jónsson',
-          email: 'jon@example.com',
-          created_at: '2025-10-07T10:00:00Z'
-        }
-      ];
-      setCars(mockCars);
-      console.log("✅ Using mock car data as fallback");
+      console.log("🔄 API timeout/error, keeping initial mock cars");
+      // Don't overwrite cars - keep the initial state
+      console.log("✅ Using initial mock car data");
     } finally {
       setLoading(false);
       console.log("✅ Loading state cleared");
@@ -193,6 +155,13 @@ export default function DealerDashboard() {
       console.log("🚗 Fetching cars...");
       const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
       console.log("🔗 Backend URL:", backendUrl);
+      
+      // If no backend URL, skip API call and keep mock data
+      if (!backendUrl) {
+        console.log("ℹ️ No backend URL configured, using mock data");
+        return;
+      }
+      
       const response = await fetch(`${backendUrl}/api/cars`);
       
       if (response.ok) {
@@ -203,16 +172,19 @@ export default function DealerDashboard() {
           console.log('✅ Loaded cars from API:', result.cars.length);
         } else {
           console.error('❌ API returned invalid format:', result);
-          setCars([]);
+          // Keep existing mock data instead of clearing
+          console.log('ℹ️ Keeping existing cars data');
         }
       } else {
         const error = await response.text();
         console.error('❌ Failed to fetch cars (HTTP', response.status, '):', error);
-        setCars([]); // Don't use mock data, show empty instead
+        // Keep existing mock data instead of clearing
+        console.log('ℹ️ Keeping existing cars data');
       }
     } catch (error) {
       console.error("❌ Network error fetching cars:", error);
-      setCars([]);
+      // Keep existing mock data instead of clearing
+      console.log('ℹ️ Keeping existing cars data');
     }
   };
 
